@@ -92,7 +92,12 @@ A frase que descreve o plugin orientou a escolha: *"Discute decisões com você 
 
 ## O que mudou
 
-Pendente: publicação do repositório, aposentadoria da versão privada, troca dos hooks da configuração pessoal pelo plugin e primeira instalação no Windows e no Mac.
+- Repositório publicado, com o plugin `decisoes` e o comando `/decisoes:discute`.
+- A versão privada foi aposentada; a calibração específica daquele ambiente passou a chegar por um hook do plugin privado que a equipe já instala, em vez de ir para um repositório de regras de negócio, que fugiria do escopo dele.
+- Os hooks da configuração pessoal foram trocados pelos do plugin, com uma confirmação só por leitura protegida (sem duplicação).
+- `INSTALAR-COM-CLAUDE.md`: a instalação pode ser feita pelo próprio Claude Code, que confere os pré-requisitos, pede OK antes de instalar programas, instala, liga a atualização automática e testa. Gravar o plugin direto no `settings.json`, sem o comando `claude plugin`, não instala nada (testado numa configuração limpa).
+
+Pendente: primeira instalação no Windows e no Mac (ver `docs/proximos-passos.md`).
 
 ## Conhecimento extraído
 
