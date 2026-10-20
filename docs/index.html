@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plugin decisoes · como instalar e usar</title>
-<meta name="description" content="Como instalar e usar o plugin decisoes do Claude Code: tirar uma ideia do papel e discutir decisões, com exemplos reais de conversa.">
+<meta name="description" content="Como instalar e usar o plugin decisoes do Claude Code: tirar uma ideia do papel e discutir decisões, com exemplos baseados em conversas reais.">
 <style>
   /* Paleta do mundo do Claude Code: neutros quentes e o laranja-argila do Claude como destaque,
      para a página e as cenas de terminal serem uma família só. */
@@ -118,9 +118,10 @@
     padding: 9px 12px 9px 9px; color: #fff; }
   .voce .autor { color: var(--t-laranja); }
   .voce.primeira .balao { position: relative; margin-top: 18px; }
+  .voce.primeira .nota { margin-top: 18px; } /* desce junto com a fala, que abriu espaço para o rótulo */
   .voce.primeira .balao::before { content: "você digita"; position: absolute; top: -19px; left: 2px;
     font-family: var(--corpo); font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--t-cinza); }
-  .claude .balao { color: #d4cdc4; padding: 2px 0; }
+  .claude .balao { color: #d4cdc4; padding: 9px 0; }
   .claude .autor { color: var(--t-laranja); }
   .balao b { color: #fff; }
   .balao p + p, .balao p + ul, .balao ul + p, .balao ul + .reco, .balao p + .reco { margin-top: 8px; }
@@ -132,7 +133,9 @@
   .corte { color: var(--t-cinza); font-style: italic; }
   .nota { font-size: .84rem; line-height: 1.5; color: #cbc3ff; background: #2a2640; border-radius: 10px;
     padding: 9px 11px; position: relative; font-family: var(--corpo); }
-  .nota::before { content: ""; position: absolute; left: -10px; top: 15px; width: 10px; height: 2px; background: #8f84d8; }
+  /* O traço liga a nota à primeira linha da fala: as duas começam com 9px de respiro, então o
+     traço fica na altura do meio dessa linha. */
+  .nota::before { content: ""; position: absolute; left: -10px; top: 19px; width: 10px; height: 2px; background: #8f84d8; }
   .nota b { font-weight: 800; color: #e2dcff; }
   .resultado { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0 18px 0 calc(18px + 1.7em); }
   .arquivo { font-family: var(--mono); font-size: .76rem; border: 1px dashed var(--t-verde); color: var(--t-verde);
@@ -176,6 +179,7 @@
     .gestos { grid-template-columns: 1fr; }
     .fala { grid-template-columns: 1fr; gap: 8px; }
     .nota::before { display: none; }
+    .voce.primeira .nota { margin-top: 0; }
     .passos > li { padding-left: 58px; }
     .fala { padding: 0 12px; }
     .resultado { padding: 0 12px; }
@@ -224,8 +228,8 @@
       </li>
       <li>
         <h3>Responda quando ele pedir OK</h3>
-        <p>O Claude confere o que falta e instala o plugin. Se faltar algum programa, ele explica para que serve e pede a sua permissão antes de instalar. No fim, ele testa se ficou funcionando e liga a atualização automática.</p>
-        <p class="aviso">No Windows, ele pode pedir para instalar o <b>Git for Windows</b>, que os scripts do plugin precisam. Se você só usa o Desktop, ele pode propor instalar também o <b>Claude Code de terminal</b>, que a instalação usa. Fica com a mesma conta e os mesmos plugins.</p>
+        <p>O Claude confere o que falta e instala o plugin. Se faltar algum programa, ele explica para que serve e pede a sua permissão antes de instalar. No fim, ele liga a atualização automática e testa se ficou funcionando.</p>
+        <p class="aviso">No Windows, ele pode pedir para instalar o <b>Git for Windows</b>, de que os scripts do plugin precisam. Se você só usa o Desktop, ele pode propor instalar também o <b>Claude Code de terminal</b>, que a instalação usa. Fica com a mesma conta e os mesmos plugins.</p>
       </li>
       <li>
         <h3>Abra uma conversa nova</h3>
@@ -285,14 +289,27 @@
 
       <div class="fala voce">
         <div class="balao"><span class="autor">&gt;</span><p>A. Pode criar.</p></div>
-        <aside class="nota"><b>OK seu</b> antes de criar a pasta. Depois, outro OK antes de criar o repositório no GitHub.</aside>
+        <aside class="nota"><b>OK seu</b> antes de criar a pasta.</aside>
       </div>
 
       <div class="resultado">
         <span class="arquivo">projetos/receitas-da-familia/</span>
         <span class="arquivo">docs/decisoes/ativo/receitas-da-familia.md</span>
-        <span class="arquivo">github.com/… (privado)</span>
       </div>
+
+      <div class="fala claude">
+        <div class="balao"><span class="autor">⏺</span>
+          <p>Pasta criada, com o primeiro registro. Com o seu OK, crio o repositório <b>privado</b> no GitHub: só você enxerga, porque o documento guarda o plano da ideia. <b>Posso criar?</b></p>
+        </div>
+        <aside class="nota"><b>Sempre privado.</b> Público só se você pedir com todas as letras.</aside>
+      </div>
+
+      <div class="fala voce">
+        <div class="balao"><span class="autor">&gt;</span><p>Pode.</p></div>
+        <aside class="nota"><b>Outro OK seu</b>, porque o repositório fica fora da sua máquina.</aside>
+      </div>
+
+      <div class="resultado"><span class="arquivo">github.com/… (privado)</span></div>
 
       <div class="fala claude">
         <div class="balao"><span class="autor">⏺</span>
@@ -386,7 +403,7 @@
     <ul class="sozinho">
       <li><b>As regras chegam em toda sessão</b><span>É isso que permite ao Claude sugerir a discussão na hora certa.</span></li>
       <li><b>O arquivo é protegido</b><span>Antes de ler ou editar um documento arquivado, o Claude pede a sua confirmação, para não tratar decisão antiga como se fosse o estado de hoje.</span></li>
-      <li><b>Conversa longa não perde o método</b><span>Quando a conversa é resumida para caber na memória do Claude, ele relê o método da discussão.</span></li>
+      <li><b>Conversa longa não perde o método</b><span>Se houver uma discussão em andamento quando a conversa for resumida para caber na memória do Claude, ele relê o método da discussão.</span></li>
       <li><b>Atualiza sozinho</b><span>Cada melhoria publicada chega na sessão seguinte, se a atualização automática estiver ligada.</span></li>
     </ul>
   </section>
