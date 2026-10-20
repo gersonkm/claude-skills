@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plugin decisoes · como instalar e usar</title>
+<meta name="description" content="Como instalar e usar o plugin decisoes do Claude Code: tirar uma ideia do papel e discutir decisões, com exemplos reais de conversa.">
+<style>
+  :root {
+    --papel: #f3f6fb;
+    --cartao: #ffffff;
+    --tinta: #1b2433;
+    --tinta-2: #4a5568;
+    --linha: #d9e1ec;
+    --claude: #0f7b6c;
+    --claude-fundo: #e7f4f1;
+    --sobre-claude: #ffffff;
+    --voce-fundo: #e4eaf4;
+    --reco: #b7791f;
+    --reco-fundo: #fdf3e1;
+    --nota: #5b4bb7;
+    --nota-fundo: #f0eefc;
+    --cmd-fundo: #1b2433;
+    --cmd-tinta: #e6edf7;
+    --sombra: 0 1px 2px rgba(27,36,51,.06), 0 6px 20px rgba(27,36,51,.06);
+    --display: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+    --corpo: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --papel: #10151f; --cartao: #171e2b; --tinta: #e6ecf5; --tinta-2: #a5b1c4; --linha: #2a3446;
+      --claude: #4cc3b0; --claude-fundo: #12302d; --sobre-claude: #0b1f1c; --voce-fundo: #222c3d;
+      --reco: #f0b75a; --reco-fundo: #33281a; --nota: #a99cf5; --nota-fundo: #231f3d;
+      --cmd-fundo: #0b0f16; --cmd-tinta: #dce5f2; --sombra: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --papel: #10151f; --cartao: #171e2b; --tinta: #e6ecf5; --tinta-2: #a5b1c4; --linha: #2a3446;
+    --claude: #4cc3b0; --claude-fundo: #12302d; --sobre-claude: #0b1f1c; --voce-fundo: #222c3d;
+    --reco: #f0b75a; --reco-fundo: #33281a; --nota: #a99cf5; --nota-fundo: #231f3d;
+    --cmd-fundo: #0b0f16; --cmd-tinta: #dce5f2; --sombra: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--papel); color: var(--tinta); font-family: var(--corpo); font-size: 16.5px;
+    line-height: 1.62; -webkit-font-smoothing: antialiased; }
+  a { color: var(--claude); text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--claude); outline-offset: 2px; border-radius: 6px; }
+  code { font-family: var(--mono); font-size: .88em; background: var(--voce-fundo); padding: 1px 6px; border-radius: 5px; }
+  .pagina { max-width: 860px; margin: 0 auto; padding: 40px 18px 80px; }
+
+  /* Abertura: a tese do plugin são dois gestos, um seu e um do Claude */
+  .abertura h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.1rem);
+    line-height: 1.08; letter-spacing: -.02em; max-width: 15ch; }
+  .abertura .tese { margin-top: 16px; font-size: 1.12rem; color: var(--tinta-2); max-width: 58ch; }
+  .gestos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+  .gesto { background: var(--cartao); border: 1px solid var(--linha); border-radius: 18px; padding: 18px 20px; box-shadow: var(--sombra); }
+  .gesto .quem { font-family: var(--display); font-weight: 800; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+  .gesto.voce .quem { color: var(--tinta-2); }
+  .gesto.claude .quem { color: var(--claude); }
+  .gesto .comando { display: block; margin-top: 8px; font-family: var(--mono); font-size: 1.02rem; font-weight: 700; }
+  .gesto p { margin-top: 8px; font-size: .95rem; color: var(--tinta-2); }
+
+  section { margin-top: 64px; }
+  h2 { font-family: var(--display); font-weight: 800; font-size: clamp(1.45rem, 3.6vw, 1.9rem); letter-spacing: -.01em; line-height: 1.2; }
+  .lead { margin-top: 10px; color: var(--tinta-2); max-width: 62ch; }
+
+  /* Instalar: a única sequência de verdade da página, por isso numerada */
+  .passos { list-style: none; counter-reset: passo; margin-top: 22px; display: grid; gap: 12px; }
+  .passos > li { counter-increment: passo; position: relative; background: var(--cartao); border: 1px solid var(--linha);
+    border-radius: 16px; padding: 18px 20px 18px 66px; box-shadow: var(--sombra); }
+  .passos > li::before { content: counter(passo); position: absolute; left: 18px; top: 16px; width: 32px; height: 32px;
+    border-radius: 50%; background: var(--claude); color: var(--sobre-claude); font-family: var(--display); font-weight: 800;
+    display: grid; place-items: center; }
+  .passos h3 { font-family: var(--display); font-size: 1.08rem; font-weight: 800; }
+  .passos p { margin-top: 6px; color: var(--tinta-2); font-size: .97rem; }
+  .colar { margin-top: 12px; display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+  .colar .frase { flex: 1 1 320px; background: var(--cmd-fundo); color: var(--cmd-tinta); font-family: var(--mono);
+    font-size: .92rem; padding: 12px 14px; border-radius: 12px; overflow-wrap: anywhere; }
+  .copiar { font: inherit; font-weight: 700; font-size: .9rem; padding: 10px 16px; border-radius: 12px; cursor: pointer;
+    border: 1px solid var(--claude); background: var(--claude); color: var(--sobre-claude); }
+  .copiar.feito { background: transparent; color: var(--claude); }
+  .aviso { margin-top: 10px; font-size: .9rem; background: var(--reco-fundo); border-left: 4px solid var(--reco);
+    padding: 9px 12px; border-radius: 0 10px 10px 0; color: var(--tinta); }
+
+  details.mao { margin-top: 14px; background: var(--cartao); border: 1px solid var(--linha); border-radius: 14px; padding: 4px 18px; }
+  details.mao summary { cursor: pointer; font-weight: 700; padding: 10px 0; color: var(--tinta-2); }
+  details.mao pre { background: var(--cmd-fundo); color: var(--cmd-tinta); font-family: var(--mono); font-size: .86rem;
+    padding: 12px 14px; border-radius: 10px; overflow-x: auto; margin: 6px 0 12px; }
+  details.mao p { font-size: .93rem; color: var(--tinta-2); margin-bottom: 8px; }
+
+  /* Assinatura: conversa anotada. Fala à esquerda, nota do que o plugin está fazendo à direita. */
+  .cena { margin-top: 24px; background: var(--cartao); border: 1px solid var(--linha); border-radius: 20px;
+    padding: 22px 22px 8px; box-shadow: var(--sombra); }
+  .cena .onde { font-family: var(--mono); font-size: .8rem; color: var(--tinta-2); margin-bottom: 16px; }
+  .fala { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 18px; margin-bottom: 16px; align-items: start; }
+  .balao { border-radius: 16px; padding: 13px 16px; font-size: .95rem; }
+  .balao .autor { display: block; font-family: var(--display); font-weight: 800; font-size: .74rem; letter-spacing: .07em;
+    text-transform: uppercase; margin-bottom: 4px; }
+  .voce .balao { background: var(--voce-fundo); }
+  .voce .autor { color: var(--tinta-2); }
+  .claude .balao { background: var(--claude-fundo); }
+  .claude .autor { color: var(--claude); }
+  .balao p + p, .balao p + ul, .balao ul + p { margin-top: 8px; }
+  .balao ul { padding-left: 18px; }
+  .balao .cmd { font-family: var(--mono); font-weight: 700; }
+  .balao .reco { display: block; margin-top: 8px; background: var(--reco-fundo); border-left: 3px solid var(--reco);
+    padding: 7px 10px; border-radius: 0 8px 8px 0; }
+  .corte { color: var(--tinta-2); font-style: italic; font-size: .88rem; }
+  .nota { font-size: .86rem; line-height: 1.5; color: var(--nota); background: var(--nota-fundo); border-radius: 12px;
+    padding: 10px 12px; position: relative; }
+  .nota::before { content: ""; position: absolute; left: -9px; top: 16px; width: 9px; height: 2px; background: var(--nota); opacity: .5; }
+  .nota b { font-weight: 800; }
+  .resultado { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 18px; }
+  .arquivo { font-family: var(--mono); font-size: .8rem; border: 1px dashed var(--claude); color: var(--claude);
+    padding: 4px 10px; border-radius: 999px; }
+
+  .sozinho { list-style: none; margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .sozinho li { background: var(--cartao); border: 1px solid var(--linha); border-radius: 16px; padding: 16px 18px; box-shadow: var(--sombra); }
+  .sozinho b { display: block; font-family: var(--display); font-size: 1rem; margin-bottom: 4px; }
+  .sozinho span { font-size: .93rem; color: var(--tinta-2); }
+
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--linha); font-size: .9rem; color: var(--tinta-2); }
+  footer a { margin-right: 14px; }
+
+  @media (max-width: 680px) {
+    .gestos { grid-template-columns: 1fr; }
+    .fala { grid-template-columns: 1fr; gap: 8px; }
+    .nota::before { display: none; }
+    .passos > li { padding-left: 58px; }
+    .cena { padding: 18px 14px 4px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .copiar { transition: background .15s, color .15s; }
+  }
+</style>
+</head>
+<body>
+<main class="pagina">
+
+  <header class="abertura">
+    <h1>Decidir com calma, e guardar o porquê.</h1>
+    <p class="tese">O plugin <b>decisoes</b> faz o Claude discutir as decisões com você de forma crítica, uma de cada vez, e registrar o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa.</p>
+    <div class="gestos">
+      <div class="gesto voce">
+        <span class="quem">Você digita</span>
+        <span class="comando">/decisoes:tira-do-papel</span>
+        <p>Quando tem uma ideia e ainda não tem projeto. O Claude cria o projeto e conduz as decisões até ele estar pronto para construir.</p>
+      </div>
+      <div class="gesto claude">
+        <span class="quem">O Claude sugere</span>
+        <span class="comando">/decisoes:discute</span>
+        <p>Quando, no meio do trabalho, a conversa vira uma escolha entre alternativas. Ele propõe abrir a discussão e espera o seu OK.</p>
+      </div>
+    </div>
+  </header>
+
+  <section id="instalar">
+    <h2>Instalar</h2>
+    <p class="lead">É para o Claude Code: no terminal ou na aba <b>Code</b> do Claude Desktop.</p>
+    <ol class="passos">
+      <li>
+        <h3>Abra o Claude Code</h3>
+        <p>No Claude Desktop, uma sessão na aba Code; ou o comando <code>claude</code> no terminal. Qualquer pasta serve.</p>
+      </li>
+      <li>
+        <h3>Peça para ele instalar</h3>
+        <p>Copie a frase e mande para o Claude:</p>
+        <div class="colar">
+          <div class="frase" id="frase">Siga o INSTALAR-COM-CLAUDE.md de https://github.com/gersonkm/claude-skills</div>
+          <button class="copiar" type="button" data-alvo="frase">Copiar</button>
+        </div>
+      </li>
+      <li>
+        <h3>Responda quando ele pedir OK</h3>
+        <p>O Claude confere o que falta e instala o plugin. Se faltar algum programa, ele explica para que serve e pede a sua permissão antes de instalar. No fim, ele testa se ficou funcionando e liga a atualização automática.</p>
+        <p class="aviso">No Windows, ele pode pedir para instalar o <b>Git for Windows</b>, que os scripts do plugin precisam. Se você só usa o Desktop, ele pode propor instalar também o <b>Claude Code de terminal</b>, que a instalação usa. Fica com a mesma conta e os mesmos plugins.</p>
+      </li>
+      <li>
+        <h3>Abra uma conversa nova</h3>
+        <p>O plugin só começa a valer numa sessão aberta depois da instalação. Dali em diante, as melhorias chegam sozinhas.</p>
+      </li>
+    </ol>
+    <details class="mao">
+      <summary>Prefere instalar à mão?</summary>
+      <p>No Claude Code, digite:</p>
+      <pre>/plugin marketplace add gersonkm/claude-skills
+/plugin install decisoes@gersonkm</pre>
+      <p>Para receber as atualizações sozinho: <code>/plugin</code> → aba <b>Marketplaces</b> → <code>gersonkm</code> → <b>Enable auto-update</b>. No Windows, instale antes o Git for Windows (<code>winget install --id Git.Git -e</code>).</p>
+    </details>
+  </section>
+
+  <section id="ideia">
+    <h2>Quando você tem uma ideia</h2>
+    <p class="lead">Baseado numa sessão real de teste, encurtada: alguém quer um caderno de receitas digital para a família. As notas à direita mostram o que o plugin está fazendo em cada momento.</p>
+
+    <div class="cena">
+      <div class="onde">pasta onde a sessão foi aberta: projetos/ (com outros dois projetos dentro)</div>
+
+      <div class="fala voce">
+        <div class="balao"><span class="autor">Você</span>
+          <p><span class="cmd">/decisoes:tira-do-papel</span> quero fazer um app simples pra minha família guardar e compartilhar as receitas da casa, tipo um caderno de receitas digital</p>
+        </div>
+        <aside class="nota"><b>Você chama.</b> Este comando o Claude nunca aciona sozinho, porque ele cria pasta e repositório.</aside>
+      </div>
+
+      <div class="fala claude">
+        <div class="balao"><span class="autor">Claude</span>
+          <p>Antes de criar qualquer coisa, quero entender melhor. Pode responder só com o número e a letra.</p>
+          <p><b>1. Quem vai usar?</b> A) só a casa · B) a família estendida · C) começa em casa e depois abre</p>
+          <p><b>2. O que te fez pensar nisso agora?</b> A) receitas espalhadas · B) tem receita que só uma pessoa sabe fazer · C) quer aprender a fazer um app</p>
+          <p class="corte">(e uma terceira pergunta, sobre como a família usaria no dia a dia)</p>
+        </div>
+        <aside class="nota"><b>Entender antes de criar.</b> Nada é criado até a ideia estar clara: o nome da pasta nasce desse entendimento.</aside>
+      </div>
+
+      <div class="fala voce">
+        <div class="balao"><span class="autor">Você</span><p>1B, 2B (a receita da minha avó só ela sabe fazer) e um pouco de C, 3A</p></div>
+        <aside class="nota"><b>Responder pelo número</b> é o bastante.</aside>
+      </div>
+
+      <div class="fala claude">
+        <div class="balao"><span class="autor">Claude</span>
+          <p>Uma coisa que preciso dizer agora, porque é mais importante que o app: <b>a receita da sua avó não pode esperar o app ficar pronto.</b> Receita de avó é "farinha até dar o ponto". Isso se registra melhor filmando ela fazendo.</p>
+          <p><b>O nome da pasta</b> (vale também para o GitHub):</p>
+          <ul><li><b>A)</b> receitas-da-familia</li><li><b>B)</b> caderno-de-receitas</li><li><b>C)</b> receitas-da-vo</li></ul>
+          <span class="reco">Recomendo A: é claro e não fica pequeno quando o resto da família começar a colocar receitas.</span>
+        </div>
+        <aside class="nota"><b>Crítica sincera</b>, não só execução: aponta o que importa mais que o pedido. Depois, uma rodada com opções e uma recomendação.</aside>
+      </div>
+
+      <div class="fala voce">
+        <div class="balao"><span class="autor">Você</span><p>A. Pode criar.</p></div>
+        <aside class="nota"><b>OK seu</b> antes de criar a pasta. Depois, outro OK antes de criar o repositório no GitHub.</aside>
+      </div>
+
+      <div class="resultado">
+        <span class="arquivo">projetos/receitas-da-familia/</span>
+        <span class="arquivo">docs/decisoes/ativo/receitas-da-familia.md</span>
+        <span class="arquivo">github.com/… (privado)</span>
+      </div>
+
+      <div class="fala claude">
+        <div class="balao"><span class="autor">Claude</span>
+          <p><b>Rodada 1: app próprio ou algo pronto?</b> A) uma pasta compartilhada · B) construir o app · C) os dois, em etapas</p>
+          <span class="reco">Recomendo C: guardar as receitas da avó não pode ficar refém do sucesso do app.</span>
+          <p class="corte">(as rodadas seguem: primeira versão, formato, como testar com a família, custo)</p>
+        </div>
+        <aside class="nota"><b>Uma decisão por vez</b>, cada uma registrada no documento com o porquê. A cada bloco de decisões, salva no GitHub.</aside>
+      </div>
+
+      <div class="fala claude">
+        <div class="balao"><span class="autor">Claude</span>
+          <p>A ideia está pronta para começar a construir. Salvei as decisões e o <code>CLAUDE.md</code>. Abra uma sessão nova <b>dentro da pasta</b> receitas-da-familia: é lá que a construção começa.</p>
+        </div>
+        <aside class="nota"><b>Entrega o CLAUDE.md</b>, o resumo que o Claude lê em toda sessão daquele projeto.</aside>
+      </div>
+      <div class="resultado"><span class="arquivo">receitas-da-familia/CLAUDE.md</span></div>
+    </div>
+  </section>
+
+  <section id="decidir">
+    <h2>Quando a conversa vira uma escolha</h2>
+    <p class="lead">Aqui você não digita comando nenhum. Já dentro do projeto, a pessoa só conta o que quer. Também é uma sessão real de teste, encurtada.</p>
+
+    <div class="cena">
+      <div class="onde">pasta do projeto: receitas-da-familia/</div>
+
+      <div class="fala voce">
+        <div class="balao"><span class="autor">Você</span><p>Quero que a família seja avisada quando eu colocar uma receita nova no site. Pode ser por e-mail, por WhatsApp ou só uma página de novidades, não sei qual é melhor.</p></div>
+        <aside class="nota"><b>Uma conversa comum</b>, sem comando.</aside>
+      </div>
+
+      <div class="fala claude">
+        <div class="balao"><span class="autor">Claude</span>
+          <p>Essa escolha tem prós e contras de verdade, então vale discutir antes de implementar. Sugiro abrir uma discussão com <span class="cmd">/decisoes:discute</span>. Assim a escolha fica registrada com as alternativas descartadas e o motivo. <b>Só abro o documento se você quiser.</b></p>
+          <p class="corte">(e já adianta uma primeira impressão das três opções)</p>
+        </div>
+        <aside class="nota"><b>O Claude percebeu sozinho</b> que era uma escolha entre alternativas, e sugeriu. Não criou nada.</aside>
+      </div>
+
+      <div class="fala voce">
+        <div class="balao"><span class="autor">Você</span><p>Sim, pode abrir.</p></div>
+        <aside class="nota"><b>A decisão de abrir é sua.</b></aside>
+      </div>
+
+      <div class="resultado"><span class="arquivo">docs/decisoes/ativo/aviso-de-receita-nova.md</span></div>
+
+      <div class="fala claude">
+        <div class="balao"><span class="autor">Claude</span>
+          <p>Pontos que precisamos decidir, em ordem: escopo, canal, disparo e conteúdo. Antes, preciso saber como a família funciona hoje, porque a resposta muda a escolha do canal:</p>
+          <p><b>Grupo da família:</b> A) existe e todo mundo lê · B) existe mas está abandonado · C) não existe</p>
+          <p><b>Quem vai ler:</b> X) todos usam bem o celular · Y) tem gente que precisa receber sem fazer nada</p>
+          <p>Uma resposta como "A, Y" já basta.</p>
+        </div>
+        <aside class="nota"><b>Pergunta antes de chutar.</b> Ele admite que a primeira impressão supôs coisas não confirmadas, e não inventa motivo: o que falta fica marcado como pendente no documento.</aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="sozinho">
+    <h2>O que acontece sem você ver</h2>
+    <ul class="sozinho">
+      <li><b>As regras chegam em toda sessão</b><span>É isso que permite ao Claude sugerir a discussão na hora certa.</span></li>
+      <li><b>Documento entregue não muda</b><span>Depois de entregue, o documento fica congelado. Se a decisão mudar, nasce um documento novo, e o histórico continua confiável.</span></li>
+      <li><b>Conversa longa não perde o método</b><span>Quando a conversa é resumida para caber na memória do Claude, ele relê o método da discussão.</span></li>
+      <li><b>Atualiza sozinho</b><span>Cada melhoria publicada chega na sessão seguinte, se a atualização automática estiver ligada.</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <a href="https://github.com/gersonkm/claude-skills">Repositório</a>
+    <a href="https://github.com/gersonkm/claude-skills/blob/main/plugins/decisoes/README.md">Como o plugin funciona</a>
+    <a href="https://github.com/gersonkm/claude-skills/blob/main/docs/teste-instalacao.md">Conferir a instalação</a>
+  </footer>
+</main>
+
+<script>
+  document.querySelectorAll(".copiar").forEach(function (botao) {
+    botao.addEventListener("click", function () {
+      var texto = document.getElementById(botao.dataset.alvo).textContent.trim();
+      function feito() {
+        var original = botao.textContent;
+        botao.textContent = "Copiado";
+        botao.classList.add("feito");
+        setTimeout(function () { botao.textContent = original; botao.classList.remove("feito"); }, 1800);
+      }
+      function semClipboard() {
+        var area = document.createElement("textarea");
+        area.value = texto; area.setAttribute("readonly", ""); area.style.position = "fixed"; area.style.top = "-9999px";
+        document.body.appendChild(area); area.select();
+        try { if (document.execCommand("copy")) feito(); } catch (e) {}
+        document.body.removeChild(area);
+      }
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(texto).then(feito, semClipboard);
+      else semClipboard();
+    });
+  });
+</script>
+</body>
+</html>

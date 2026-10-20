@@ -8,6 +8,8 @@ Plugins do [Claude Code](https://code.claude.com/docs), abertos para quem quiser
 |---|---|
 | [`decisoes`](plugins/decisoes/) | Discute decisões com você de forma crítica, uma de cada vez, e registra o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa. Dois comandos: **`/decisoes:tira-do-papel <ideia>`**, que você chama quando tem uma ideia nova e o Claude cria o projeto (pasta, git, repositório privado no GitHub) e conduz as decisões até o `CLAUDE.md`; e **`/decisoes:discute`**, que o próprio Claude sugere quando a conversa, num projeto, vira uma escolha entre alternativas. |
 
+📖 **Passo a passo ilustrado, com exemplos de conversa:** https://gersonkm.github.io/claude-skills/
+
 ## Instalar
 
 ### O jeito mais fácil: pedir ao Claude
