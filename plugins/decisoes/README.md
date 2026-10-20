@@ -1,5 +1,7 @@
 # decisoes
 
+> Discute decisões com você de forma crítica, uma de cada vez, e registra o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa.
+
 A informação mais valiosa sobre uma mudança no software raramente está no código. O código mostra o *como*; os commits, o *quê*. O *porquê*, as alternativas descartadas e os tradeoffs avaliados só existem na conversa com o agente, e se perdem quando ela acaba.
 
 Este plugin faz duas coisas com isso:
@@ -10,7 +12,7 @@ Este plugin faz duas coisas com isso:
 ## Como usar
 
 ```
-/decisoes:cria-discussao <tema>
+/decisoes:discute <tema>
 ```
 
 Você não precisa lembrar do comando. Quando a conversa vira uma escolha entre alternativas, o Claude **sugere** abrir a discussão e espera o seu OK.
@@ -34,7 +36,7 @@ docs/decisoes/
 
 | Peça | Para que serve |
 |---|---|
-| Skill `cria-discussao` | O método completo e o formato do documento. Entra no contexto só quando usada. |
+| Skill `discute` | O método completo e o formato do documento. Entra no contexto só quando usada. |
 | Hook de início de sessão | Injeta um bloco curto com as regras. É ele que faz o Claude sugerir a skill na hora certa e respeitar o congelamento mesmo sem a skill carregada. |
 | Hook depois da compactação | Quando a conversa longa é resumida, o Claude Code mantém só o começo de cada skill (uns 5.000 tokens), e esta é maior. Se houver discussão em andamento, o hook manda reler a skill inteira. |
 | Hook de proteção | Pede confirmação antes de ler `arquivo/` ou `pausado/` e antes de editar um documento arquivado. |

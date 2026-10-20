@@ -1,5 +1,5 @@
 ---
-name: cria-discussao
+name: discute
 description: Conduz uma discussão de decisão com método (crítica honesta, opções enumeradas, uma decisão por rodada, recomendação obrigatória) e registra tudo num documento de decisão em docs/decisoes/ativo/. Use quando a conversa virar exploração de alternativas com tradeoffs ou decisão de impacto (arquitetura, desenho de funcionalidade, escolha de ferramenta, processo). Não use para bug simples, ajuste cosmético, tarefa operacional ou mudança direta sem alternativas. Se foi você, e não o usuário, quem percebeu o momento, sugira a discussão e espere o OK antes de criar qualquer documento.
 argument-hint: <tema da discussão>
 ---
@@ -275,7 +275,7 @@ Criar o arquivo antes de entender a motivação gera dois problemas:
 
 ### Exemplo de tema vago
 
-Entrada: `/decisoes:cria-discussao autenticação externa`
+Entrada: `/decisoes:discute autenticação externa`
 
 Resposta esperada: **não criar o doc ainda**, e listar cenários prováveis:
 
@@ -693,7 +693,7 @@ NÃO criar quando:
 - Mudanças diretas sem alternativas
 - Tarefas operacionais
 
-Se o usuário acionou `/decisoes:cria-discussao` mas o tema não se enquadra nos critérios acima,
+Se o usuário acionou `/decisoes:discute` mas o tema não se enquadra nos critérios acima,
 informar que talvez não precise de doc de decisão e perguntar se quer prosseguir mesmo assim.
 
 ## Estrutura de diretórios

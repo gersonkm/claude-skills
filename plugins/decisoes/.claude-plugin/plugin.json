@@ -1,6 +1,6 @@
 {
   "name": "decisoes",
-  "description": "Documentos de decisão: conduz discussões com método (crítica honesta, uma decisão por rodada, recomendação obrigatória) e registra o porquê de cada escolha em docs/decisoes/. Inclui hooks que lembram as regras, protegem docs congelados e recuperam o método depois da compactação.",
+  "description": "Discute decisões com você de forma crítica, uma de cada vez, e registra o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa.",
   "author": {
     "name": "gersonkm",
     "url": "https://github.com/gersonkm"

@@ -4,7 +4,7 @@ Para fazer uma vez, logo depois de instalar o plugin `decisoes`. Confirma que a 
 
 ## 1. A skill está disponível?
 
-Digite `/decisoes` e veja se aparece `/decisoes:cria-discussao` na lista.
+Digite `/decisoes` e veja se aparece `/decisoes:discute` na lista.
 
 - ✅ Aparece: a skill foi instalada.
 - ❌ Não aparece: confira em `/plugin` se o plugin `decisoes` está instalado e habilitado.
@@ -15,7 +15,7 @@ Pergunte ao Claude:
 
 > Você recebeu no início da sessão um bloco chamado "Regras de documentos de decisão (plugin decisoes)"? Qual comando ele manda sugerir?
 
-- ✅ Responde que sim e cita `/decisoes:cria-discussao`: os hooks estão rodando.
+- ✅ Responde que sim e cita `/decisoes:discute`: os hooks estão rodando.
 - ❌ Diz que não recebeu: os hooks não rodaram. No Windows, a causa mais provável é falta do Git for Windows (ver o README). Se ele estiver instalado, abra uma issue neste repositório com a resposta do Claude e o sistema operacional.
 
 ## 3. A proteção de documento arquivado funciona?

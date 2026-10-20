@@ -43,7 +43,7 @@ Os usuários iniciais estão no **Claude Desktop (aba Code) no Windows**, com in
 
 ### D1. Marketplace público em `gersonkm/claude-skills`
 
-Marketplace `gersonkm`, plugin `decisoes`, comando `/decisoes:cria-discussao`. Público pelos motivos da Exploração: sem credencial, sem atualização que falha em silêncio, e nada sensível no conteúdo.
+Marketplace `gersonkm`, plugin `decisoes` (o comando foi definido em D7). Público pelos motivos da Exploração: sem credencial, sem atualização que falha em silêncio, e nada sensível no conteúdo.
 
 ### D2. Uma fonte só (opção B)
 
@@ -69,6 +69,26 @@ Um único script para Mac e Windows, lendo o JSON sem `jq` e aceitando caminho c
 ### D6. Sem número de versão no plugin
 
 Sem `version` no `plugin.json`, a versão é o commit: cada `git push` vira atualização para todos, sem lembrar de subir número. Contrapartida aceita: não há como segurar uma mudança no repo sem publicá-la.
+
+### D7. Comando `/decisoes:discute`
+
+O comando é `/<plugin>:<skill>`, e os dois nomes foram revistos antes da primeira instalação: depois que alguém instala, trocar o nome do plugin quebra a atualização dessa pessoa. Acrescentar comandos novos ao plugin, ao contrário, não quebra nada.
+
+A frase que descreve o plugin orientou a escolha: *"Discute decisões com você de forma crítica, uma de cada vez, e registra o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa."* O comando é essa frase invertida.
+
+**Skill: `discute`.** Verbo no presente, na 3ª pessoa, como nas demais skills do autor. Descartados:
+- `cria-discussao` (o nome original): repete a ideia do prefixo, e "cria" não descreve o caso em que a decisão vira um novo `Dn` num doc já aberto;
+- `decide`: promete o resultado, mas muitas discussões terminam pausadas ou descartadas;
+- `abre`: mesmo problema do "cria".
+
+**Plugin: `decisoes`.** Num repo público, nome descritivo ganha de nome criativo: quem procura "documento de decisão" acha, e quem lê o comando entende sem abrir o README. O nome também comporta uma família de comandos do ciclo de vida do documento. Descartados:
+- `adr`: termo conhecido, mas a skill rejeita de propósito o formato rígido de ADR, e as decisões não são só de arquitetura;
+- `porque`: memorável e fiel à essência (o porquê), mas não diz o que é para quem vê de fora, e a grafia confunde;
+- `deliberacao`: preciso, mas longo e formal demais para digitar.
+
+"Documento" ficou fora do nome: o nome diz o que a pessoa faz, e o documento é a consequência. A palavra aparece na descrição, que é o que a listagem do marketplace mostra.
+
+**Português, não inglês.** `/decisions:discuss` foi considerado para ampliar o alcance. Com o conteúdo em português, um nome em inglês prometeria um plugin que um falante de inglês não conseguiria usar. Se um dia houver tradução, o caminho previsto é uma skill só, escrita em inglês, que conversa no idioma do usuário, sem duas versões. Com ela vem um cuidado: aceitar `docs/decisions/` além de `docs/decisoes/`, inclusive nos hooks.
 
 ## O que mudou
 

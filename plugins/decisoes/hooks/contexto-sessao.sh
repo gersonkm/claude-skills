@@ -7,7 +7,7 @@
 #
 # Depois da compactação: se houver doc `em-discussao`, manda reler a skill.
 # Motivo: na compactação o Claude Code só reanexa os primeiros ~5.000 tokens de
-# cada skill, e a cria-discussao é maior que isso; a parte de condução das
+# cada skill, e a skill discute é maior que isso; a parte de condução das
 # rodadas se perderia.
 #
 # ⚠️ Sem `jq` de propósito (Git Bash do Windows e macOS sem instalar nada).
@@ -26,7 +26,7 @@ cat "$pasta_hook/regras-sessao.md"
 
 # Caminho da skill: CLAUDE_PLUGIN_ROOT vem com barras normais também no
 # Windows (C:/...), que é o formato que a ferramenta Read entende.
-skill="${CLAUDE_PLUGIN_ROOT:-$pasta_hook/..}/skills/cria-discussao/SKILL.md"
+skill="${CLAUDE_PLUGIN_ROOT:-$pasta_hook/..}/skills/discute/SKILL.md"
 projeto="${CLAUDE_PROJECT_DIR:-.}"
 
 # Doc em discussão = primeira linha não vazia depois de "## Status" começa com em-discussao.

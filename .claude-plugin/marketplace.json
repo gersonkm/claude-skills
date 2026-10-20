@@ -11,7 +11,7 @@
     {
       "name": "decisoes",
       "source": "./plugins/decisoes",
-      "description": "Documentos de decisão: discussão com método e registro do porquê de cada escolha em docs/decisoes/, com hooks de proteção."
+      "description": "Discute decisões com você de forma crítica, uma de cada vez, e registra o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa."
     }
   ]
 }
