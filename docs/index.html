@@ -97,6 +97,7 @@
 
   h3.uso { font-family: var(--display); font-weight: 800; font-size: 1.28rem; margin-top: 36px; }
   .uso-linha { margin-top: 6px; color: var(--tinta-2); max-width: 64ch; }
+  .uso-linha + .uso-linha { margin-top: 4px; }
 
   /* Assinatura: conversa anotada, com a cara de uma sessão do Claude Code (terminal escuro,
      laranja do Claude, ">" no que você digita e "⏺" nas respostas). As notas ficam fora da "tela".
@@ -252,7 +253,8 @@
     <p class="lead">Há duas formas de usar o plugin. Os exemplos abaixo são baseados em sessões reais de teste, encurtadas. As notas ao lado mostram o que o plugin está fazendo em cada momento.</p>
 
     <h3 class="uso" id="comecar">Começar um projeto do zero</h3>
-    <p class="uso-linha">Você digita <code>/decisoes:tira-do-papel</code> seguido da ideia. No exemplo, alguém quer um caderno de receitas digital para a família.</p>
+    <p class="uso-linha">Você digita <code>/decisoes:tira-do-papel</code> seguido da ideia. Não precisa criar pasta antes: abra o Claude Code na pasta onde guarda seus projetos, ou em qualquer outra. Ele sugere onde criar a pasta nova, nunca dentro de outro projeto, e pergunta quando não souber.</p>
+    <p class="uso-linha">No exemplo, alguém quer um caderno de receitas digital para a família.</p>
 
     <div class="cena">
       <div class="onde"><span class="marca">✻ Claude Code</span><span>~/projetos (já tem outros dois projetos)</span></div>
