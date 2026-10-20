@@ -1,0 +1,17 @@
+{
+  "name": "gersonkm",
+  "owner": {
+    "name": "gersonkm",
+    "url": "https://github.com/gersonkm"
+  },
+  "metadata": {
+    "description": "Plugins do Claude Code abertos para quem quiser usar."
+  },
+  "plugins": [
+    {
+      "name": "decisoes",
+      "source": "./plugins/decisoes",
+      "description": "Documentos de decisão: discussão com método e registro do porquê de cada escolha em docs/decisoes/, com hooks de proteção."
+    }
+  ]
+}
