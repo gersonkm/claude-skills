@@ -6,40 +6,42 @@
 <title>Plugin decisoes · como instalar e usar</title>
 <meta name="description" content="Como instalar e usar o plugin decisoes do Claude Code: tirar uma ideia do papel e discutir decisões, com exemplos reais de conversa.">
 <style>
+  /* Paleta do mundo do Claude Code: neutros quentes e o laranja-argila do Claude como destaque,
+     para a página e as cenas de terminal serem uma família só. */
   :root {
-    --papel: #f3f6fb;
-    --cartao: #ffffff;
-    --tinta: #1b2433;
-    --tinta-2: #4a5568;
-    --linha: #d9e1ec;
-    --claude: #0f7b6c;
-    --claude-fundo: #e7f4f1;
+    --papel: #f6f3ee;
+    --cartao: #fffdf9;
+    --tinta: #2b2622;
+    --tinta-2: #6a6058;
+    --linha: #e5ddd2;
+    --claude: #b85a3a;
+    --claude-fundo: #f5e6dd;
     --sobre-claude: #ffffff;
-    --voce-fundo: #e4eaf4;
-    --reco: #b7791f;
-    --reco-fundo: #fdf3e1;
+    --voce-fundo: #eee7de;
+    --reco: #9a5d17;
+    --reco-fundo: #fbefdc;
     --nota: #5b4bb7;
     --nota-fundo: #f0eefc;
-    --cmd-fundo: #1b2433;
-    --cmd-tinta: #e6edf7;
-    --sombra: 0 1px 2px rgba(27,36,51,.06), 0 6px 20px rgba(27,36,51,.06);
+    --cmd-fundo: #1f1e1c;
+    --cmd-tinta: #ebe6df;
+    --sombra: 0 1px 2px rgba(43,38,34,.06), 0 6px 20px rgba(43,38,34,.06);
     --display: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
     --corpo: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --papel: #10151f; --cartao: #171e2b; --tinta: #e6ecf5; --tinta-2: #a5b1c4; --linha: #2a3446;
-      --claude: #4cc3b0; --claude-fundo: #12302d; --sobre-claude: #0b1f1c; --voce-fundo: #222c3d;
-      --reco: #f0b75a; --reco-fundo: #33281a; --nota: #a99cf5; --nota-fundo: #231f3d;
-      --cmd-fundo: #0b0f16; --cmd-tinta: #dce5f2; --sombra: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+      --papel: #1a1816; --cartao: #23201d; --tinta: #ece6de; --tinta-2: #b0a69b; --linha: #3a3530;
+      --claude: #e2896a; --claude-fundo: #3a2a22; --sobre-claude: #1a1210; --voce-fundo: #2e2a26;
+      --reco: #f0b75a; --reco-fundo: #3a2e1e; --nota: #a99cf5; --nota-fundo: #231f3d;
+      --cmd-fundo: #121110; --cmd-tinta: #ece6de; --sombra: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
     }
   }
   :root[data-theme="dark"] {
-    --papel: #10151f; --cartao: #171e2b; --tinta: #e6ecf5; --tinta-2: #a5b1c4; --linha: #2a3446;
-    --claude: #4cc3b0; --claude-fundo: #12302d; --sobre-claude: #0b1f1c; --voce-fundo: #222c3d;
-    --reco: #f0b75a; --reco-fundo: #33281a; --nota: #a99cf5; --nota-fundo: #231f3d;
-    --cmd-fundo: #0b0f16; --cmd-tinta: #dce5f2; --sombra: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
+    --papel: #1a1816; --cartao: #23201d; --tinta: #ece6de; --tinta-2: #b0a69b; --linha: #3a3530;
+    --claude: #e2896a; --claude-fundo: #3a2a22; --sobre-claude: #1a1210; --voce-fundo: #2e2a26;
+    --reco: #f0b75a; --reco-fundo: #3a2e1e; --nota: #a99cf5; --nota-fundo: #231f3d;
+    --cmd-fundo: #121110; --cmd-tinta: #ece6de; --sombra: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.25);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -137,13 +139,38 @@
     padding: 3px 10px; border-radius: 999px; }
   .arquivo::before { content: "✓ "; }
 
-  .sozinho { list-style: none; margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .sozinho { list-style: none; margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
   .sozinho li { background: var(--cartao); border: 1px solid var(--linha); border-radius: 16px; padding: 16px 18px; box-shadow: var(--sombra); }
   .sozinho b { display: block; font-family: var(--display); font-size: 1rem; margin-bottom: 4px; }
   .sozinho span { font-size: .93rem; color: var(--tinta-2); }
 
+
+  /* O documento de decisão: o que o plugin produz, mostrado como arquivo aberto. */
+  .doc { margin-top: 20px; background: var(--cartao); border: 1px solid var(--linha); border-radius: 14px;
+    box-shadow: var(--sombra); overflow: hidden; }
+  .doc .aba { font-family: var(--mono); font-size: .8rem; padding: 9px 16px; background: var(--voce-fundo);
+    border-bottom: 1px solid var(--linha); color: var(--tinta-2); overflow-wrap: anywhere; }
+  .doc .corpo { padding: 18px 22px 20px; font-size: .95rem; }
+  .doc .titulo { font-family: var(--display); font-weight: 800; font-size: 1.3rem; }
+  .doc .status { display: inline-block; margin-top: 6px; font-family: var(--mono); font-size: .76rem; font-weight: 700;
+    background: var(--claude-fundo); color: var(--claude); padding: 2px 10px; border-radius: 999px; }
+  .doc .sec { margin-top: 16px; font-family: var(--display); font-weight: 800; font-size: .76rem; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--tinta-2); }
+  .doc .sec + p { margin-top: 4px; }
+  .doc .dn { margin-top: 10px; border-left: 3px solid var(--claude); padding: 4px 0 4px 14px; }
+  .doc .dn .t { font-weight: 800; }
+  .doc .dn p { margin-top: 3px; color: var(--tinta-2); }
+  .doc .dn p b { color: var(--tinta); }
+  .ciclo { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
+  .ciclo li { font-family: var(--mono); font-size: .78rem; padding: 5px 11px; border-radius: 999px;
+    border: 1px solid var(--linha); background: var(--cartao); color: var(--tinta-2); }
+  .ciclo li.seta { border: none; background: none; padding: 0; color: var(--claude); font-weight: 700; }
+  .ciclo li.fim { border-color: var(--claude); color: var(--claude); font-weight: 700; }
+  .ciclo-legenda { margin-top: 8px; font-size: .9rem; color: var(--tinta-2); max-width: 64ch; }
+
   footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--linha); font-size: .9rem; color: var(--tinta-2); }
   footer a { margin-right: 14px; }
+  footer .aviso-marca { margin-top: 12px; font-size: .82rem; }
 
   @media (max-width: 680px) {
     .gestos { grid-template-columns: 1fr; }
@@ -323,11 +350,42 @@
     </div>
   </section>
 
+  <section id="registro">
+    <h2>O que fica registrado</h2>
+    <p class="lead">Cada discussão vira um arquivo no próprio projeto. Exemplo ilustrativo de como fica o documento do segundo cenário, depois de algumas rodadas:</p>
+    <div class="doc">
+      <div class="aba">receitas-da-familia/docs/decisoes/ativo/aviso-de-receita-nova.md</div>
+      <div class="corpo">
+        <div class="titulo">Aviso de receita nova</div>
+        <span class="status">em-implementacao</span>
+        <div class="sec">Problema</div>
+        <p>A família quer saber quando entra uma receita nova no site. Tem gente com pouca intimidade com tecnologia, que precisa receber o aviso sem fazer nada.</p>
+        <div class="sec">Decisões</div>
+        <div class="dn">
+          <div class="t">D1. Página de novidades, com o link no grupo da família</div>
+          <p><b>Por quê:</b> o grupo de WhatsApp já existe e todo mundo lê; quem tem pouca intimidade com tecnologia recebe o aviso sem fazer nada.</p>
+          <p><b>Descartado:</b> e-mail, porque exigiria manter uma lista de endereços; WhatsApp automático, porque a API é paga.</p>
+        </div>
+        <div class="dn">
+          <div class="t">D2. O aviso sai à mão, não sozinho</div>
+          <p><b>Por quê:</b> entram poucas receitas por mês, e automatizar não compensa por enquanto.</p>
+        </div>
+      </div>
+    </div>
+    <ol class="ciclo" aria-label="Caminho do documento">
+      <li>ativo/ · em-discussao</li><li class="seta" aria-hidden="true">→</li>
+      <li>em-implementacao</li><li class="seta" aria-hidden="true">→</li>
+      <li>implementado</li><li class="seta" aria-hidden="true">→</li>
+      <li class="fim">arquivo/publicado/ · congelado</li>
+    </ol>
+    <p class="ciclo-legenda">Enquanto a obra está aberta, o documento cresce com decisões novas (D3, D4…). Depois de entregue, ele vai para o arquivo e não muda mais: se a decisão for revista um dia, nasce um documento novo que aponta para este.</p>
+  </section>
+
   <section id="sozinho">
     <h2>O que acontece sem você ver</h2>
     <ul class="sozinho">
       <li><b>As regras chegam em toda sessão</b><span>É isso que permite ao Claude sugerir a discussão na hora certa.</span></li>
-      <li><b>Documento entregue não muda</b><span>Depois de entregue, o documento fica congelado. Se a decisão mudar, nasce um documento novo, e o histórico continua confiável.</span></li>
+      <li><b>O arquivo é protegido</b><span>Antes de ler ou editar um documento arquivado, o Claude pede a sua confirmação, para não tratar decisão antiga como se fosse o estado de hoje.</span></li>
       <li><b>Conversa longa não perde o método</b><span>Quando a conversa é resumida para caber na memória do Claude, ele relê o método da discussão.</span></li>
       <li><b>Atualiza sozinho</b><span>Cada melhoria publicada chega na sessão seguinte, se a atualização automática estiver ligada.</span></li>
     </ul>
@@ -337,6 +395,7 @@
     <a href="https://github.com/gersonkm/claude-skills">Repositório</a>
     <a href="https://github.com/gersonkm/claude-skills/blob/main/plugins/decisoes/README.md">Como o plugin funciona</a>
     <a href="https://github.com/gersonkm/claude-skills/blob/main/docs/teste-instalacao.md">Conferir a instalação</a>
+    <p class="aviso-marca">Plugin independente, feito por gersonkm. Não é um produto da Anthropic. Claude e Claude Code são marcas da Anthropic.</p>
   </footer>
 </main>
 
