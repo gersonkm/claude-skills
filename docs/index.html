@@ -111,10 +111,10 @@
   .balao { display: grid; grid-template-columns: 1.7em minmax(0, 1fr); font-family: var(--mono); font-size: .84rem; line-height: 1.65; }
   .balao > *:not(.autor) { grid-column: 2; }
   .balao .autor { grid-row: 1 / span 20; font-weight: 700; }
-  /* Sua fala = a caixa de digitação do Claude Code (borda clara, texto forte).
-     Resposta do Claude = texto solto, sem caixa, com o ⏺ laranja. O contraste é caixa × solto,
-     não só cor, para funcionar também para quem distingue mal as cores. */
-  .voce .balao { background: var(--t-entrada); border: 1px solid #77706a; border-radius: 10px;
+  /* Sua fala = faixa com fundo mais claro e texto branco forte, como a entrada do Claude Code.
+     Resposta do Claude = texto solto, com o ⏺ laranja. O contraste vem do fundo e do texto mais forte,
+     não só da cor, para funcionar também para quem distingue mal as cores. */
+  .voce .balao { background: var(--t-entrada); border-radius: 10px;
     padding: 9px 12px 9px 9px; color: #fff; }
   .voce .autor { color: var(--t-laranja); }
   .voce.primeira .balao { position: relative; margin-top: 18px; }
