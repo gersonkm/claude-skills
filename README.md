@@ -10,6 +10,16 @@ Plugins do [Claude Code](https://code.claude.com/docs), abertos para quem quiser
 
 ## Instalar
 
+### O jeito mais fácil: pedir ao Claude
+
+Numa sessão do Claude Code (terminal ou aba Code do Claude Desktop), peça:
+
+> Siga o INSTALAR-COM-CLAUDE.md de github.com/gersonkm/claude-skills
+
+O Claude confere o que falta na sua máquina, pede o seu OK antes de instalar qualquer programa, instala o plugin, liga a atualização automática e testa se ficou funcionando. O passo a passo que ele segue está em [`INSTALAR-COM-CLAUDE.md`](INSTALAR-COM-CLAUDE.md).
+
+Se preferir fazer à mão, siga abaixo.
+
 ### ⚠️ Antes, no Windows: Git for Windows
 
 Os hooks do plugin são scripts bash. No Windows, o bash vem com o **Git for Windows**. Sem ele, a skill funciona, mas as proteções não rodam e aparece erro a cada uso de ferramenta.
