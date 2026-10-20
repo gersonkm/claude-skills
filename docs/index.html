@@ -51,8 +51,10 @@
   .pagina { max-width: 860px; margin: 0 auto; padding: 40px 18px 80px; }
 
   /* Abertura: a tese do plugin são dois gestos, um seu e um do Claude */
-  .abertura h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.1rem);
-    line-height: 1.08; letter-spacing: -.02em; max-width: 15ch; }
+  .abertura .rotulo { display: inline-block; font-family: var(--display); font-weight: 800; font-size: .8rem;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--claude); margin-bottom: 10px; }
+  .abertura h1 { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 5.4vw, 2.9rem);
+    line-height: 1.1; letter-spacing: -.02em; max-width: 20ch; }
   .abertura .tese { margin-top: 16px; font-size: 1.12rem; color: var(--tinta-2); max-width: 58ch; }
   .gestos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
   .gesto { background: var(--cartao); border: 1px solid var(--linha); border-radius: 18px; padding: 18px 20px; box-shadow: var(--sombra); }
@@ -90,31 +92,42 @@
     padding: 12px 14px; border-radius: 10px; overflow-x: auto; margin: 6px 0 12px; }
   details.mao p { font-size: .93rem; color: var(--tinta-2); margin-bottom: 8px; }
 
-  /* Assinatura: conversa anotada. Fala à esquerda, nota do que o plugin está fazendo à direita. */
-  .cena { margin-top: 24px; background: var(--cartao); border: 1px solid var(--linha); border-radius: 20px;
-    padding: 22px 22px 8px; box-shadow: var(--sombra); }
-  .cena .onde { font-family: var(--mono); font-size: .8rem; color: var(--tinta-2); margin-bottom: 16px; }
-  .fala { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 18px; margin-bottom: 16px; align-items: start; }
-  .balao { border-radius: 16px; padding: 13px 16px; font-size: .95rem; }
-  .balao .autor { display: block; font-family: var(--display); font-weight: 800; font-size: .74rem; letter-spacing: .07em;
-    text-transform: uppercase; margin-bottom: 4px; }
-  .voce .balao { background: var(--voce-fundo); }
-  .voce .autor { color: var(--tinta-2); }
-  .claude .balao { background: var(--claude-fundo); }
-  .claude .autor { color: var(--claude); }
-  .balao p + p, .balao p + ul, .balao ul + p { margin-top: 8px; }
+  h3.uso { font-family: var(--display); font-weight: 800; font-size: 1.28rem; margin-top: 36px; }
+  .uso-linha { margin-top: 6px; color: var(--tinta-2); max-width: 64ch; }
+
+  /* Assinatura: conversa anotada, com a cara de uma sessão do Claude Code (terminal escuro,
+     laranja do Claude, ">" no que você digita e "⏺" nas respostas). As notas ficam fora da "tela".
+     Sem o logo oficial de propósito: é marca registrada e a página é pública. */
+  .cena { --t-fundo: #1f1e1c; --t-borda: #34312d; --t-tinta: #ebe6df; --t-cinza: #9d978f;
+    --t-laranja: #d97757; --t-verde: #86c9a9; --t-entrada: #2b2926;
+    margin-top: 16px; background: var(--t-fundo); color: var(--t-tinta); border: 1px solid var(--t-borda);
+    border-radius: 16px; overflow: hidden; box-shadow: var(--sombra); padding-bottom: 6px; }
+  .cena .onde { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; padding: 11px 18px;
+    border-bottom: 1px solid var(--t-borda); font-family: var(--mono); font-size: .78rem; color: var(--t-cinza); margin-bottom: 16px; }
+  .cena .onde .marca { color: var(--t-laranja); font-weight: 700; }
+  .fala { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 18px; margin-bottom: 14px; align-items: start; padding: 0 18px; }
+  .balao { display: grid; grid-template-columns: 1.7em minmax(0, 1fr); font-family: var(--mono); font-size: .84rem; line-height: 1.65; }
+  .balao > *:not(.autor) { grid-column: 2; }
+  .balao .autor { grid-row: 1 / span 20; font-weight: 700; }
+  .voce .balao { background: var(--t-entrada); border-radius: 8px; padding: 8px 12px 8px 8px; }
+  .voce .autor { color: var(--t-cinza); }
+  .claude .autor { color: var(--t-laranja); }
+  .balao b { color: #fff; }
+  .balao p + p, .balao p + ul, .balao ul + p, .balao ul + .reco, .balao p + .reco { margin-top: 8px; }
   .balao ul { padding-left: 18px; }
-  .balao .cmd { font-family: var(--mono); font-weight: 700; }
-  .balao .reco { display: block; margin-top: 8px; background: var(--reco-fundo); border-left: 3px solid var(--reco);
+  .balao .cmd { color: var(--t-laranja); font-weight: 700; }
+  .balao code { background: var(--t-entrada); color: var(--t-tinta); }
+  .balao .reco { display: block; background: #3a2f20; border-left: 3px solid #e8a33d; color: #f4e4c6;
     padding: 7px 10px; border-radius: 0 8px 8px 0; }
-  .corte { color: var(--tinta-2); font-style: italic; font-size: .88rem; }
-  .nota { font-size: .86rem; line-height: 1.5; color: var(--nota); background: var(--nota-fundo); border-radius: 12px;
-    padding: 10px 12px; position: relative; }
-  .nota::before { content: ""; position: absolute; left: -9px; top: 16px; width: 9px; height: 2px; background: var(--nota); opacity: .5; }
-  .nota b { font-weight: 800; }
-  .resultado { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 18px; }
-  .arquivo { font-family: var(--mono); font-size: .8rem; border: 1px dashed var(--claude); color: var(--claude);
-    padding: 4px 10px; border-radius: 999px; }
+  .corte { color: var(--t-cinza); font-style: italic; }
+  .nota { font-size: .84rem; line-height: 1.5; color: #cbc3ff; background: #2a2640; border-radius: 10px;
+    padding: 9px 11px; position: relative; font-family: var(--corpo); }
+  .nota::before { content: ""; position: absolute; left: -10px; top: 15px; width: 10px; height: 2px; background: #8f84d8; }
+  .nota b { font-weight: 800; color: #e2dcff; }
+  .resultado { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0 18px 0 calc(18px + 1.7em); }
+  .arquivo { font-family: var(--mono); font-size: .76rem; border: 1px dashed var(--t-verde); color: var(--t-verde);
+    padding: 3px 10px; border-radius: 999px; }
+  .arquivo::before { content: "✓ "; }
 
   .sozinho { list-style: none; margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
   .sozinho li { background: var(--cartao); border: 1px solid var(--linha); border-radius: 16px; padding: 16px 18px; box-shadow: var(--sombra); }
@@ -129,7 +142,8 @@
     .fala { grid-template-columns: 1fr; gap: 8px; }
     .nota::before { display: none; }
     .passos > li { padding-left: 58px; }
-    .cena { padding: 18px 14px 4px; }
+    .fala { padding: 0 12px; }
+    .resultado { padding: 0 12px; }
   }
   @media (prefers-reduced-motion: no-preference) {
     .copiar { transition: background .15s, color .15s; }
@@ -140,7 +154,8 @@
 <main class="pagina">
 
   <header class="abertura">
-    <h1>Decidir com calma, e guardar o porquê.</h1>
+    <span class="rotulo">Plugin decisoes</span>
+    <h1>Planeje ideias e registre decisões com o Claude Code</h1>
     <p class="tese">O plugin <b>decisoes</b> faz o Claude discutir as decisões com você de forma crítica, uma de cada vez, e registrar o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa.</p>
     <div class="gestos">
       <div class="gesto voce">
@@ -191,22 +206,25 @@
     </details>
   </section>
 
-  <section id="ideia">
-    <h2>Quando você tem uma ideia</h2>
-    <p class="lead">Baseado numa sessão real de teste, encurtada: alguém quer um caderno de receitas digital para a família. As notas à direita mostram o que o plugin está fazendo em cada momento.</p>
+  <section id="usar">
+    <h2>Como usar</h2>
+    <p class="lead">Há duas formas de usar o plugin. Os exemplos abaixo são baseados em sessões reais de teste, encurtadas. As notas ao lado mostram o que o plugin está fazendo em cada momento.</p>
+
+    <h3 class="uso" id="comecar">Começar um projeto do zero</h3>
+    <p class="uso-linha">Você digita <code>/decisoes:tira-do-papel</code> seguido da ideia. No exemplo, alguém quer um caderno de receitas digital para a família.</p>
 
     <div class="cena">
-      <div class="onde">pasta onde a sessão foi aberta: projetos/ (com outros dois projetos dentro)</div>
+      <div class="onde"><span class="marca">✻ Claude Code</span><span>~/projetos (já tem outros dois projetos)</span></div>
 
       <div class="fala voce">
-        <div class="balao"><span class="autor">Você</span>
+        <div class="balao"><span class="autor">&gt;</span>
           <p><span class="cmd">/decisoes:tira-do-papel</span> quero fazer um app simples pra minha família guardar e compartilhar as receitas da casa, tipo um caderno de receitas digital</p>
         </div>
         <aside class="nota"><b>Você chama.</b> Este comando o Claude nunca aciona sozinho, porque ele cria pasta e repositório.</aside>
       </div>
 
       <div class="fala claude">
-        <div class="balao"><span class="autor">Claude</span>
+        <div class="balao"><span class="autor">⏺</span>
           <p>Antes de criar qualquer coisa, quero entender melhor. Pode responder só com o número e a letra.</p>
           <p><b>1. Quem vai usar?</b> A) só a casa · B) a família estendida · C) começa em casa e depois abre</p>
           <p><b>2. O que te fez pensar nisso agora?</b> A) receitas espalhadas · B) tem receita que só uma pessoa sabe fazer · C) quer aprender a fazer um app</p>
@@ -216,12 +234,12 @@
       </div>
 
       <div class="fala voce">
-        <div class="balao"><span class="autor">Você</span><p>1B, 2B (a receita da minha avó só ela sabe fazer) e um pouco de C, 3A</p></div>
+        <div class="balao"><span class="autor">&gt;</span><p>1B, 2B (a receita da minha avó só ela sabe fazer) e um pouco de C, 3A</p></div>
         <aside class="nota"><b>Responder pelo número</b> é o bastante.</aside>
       </div>
 
       <div class="fala claude">
-        <div class="balao"><span class="autor">Claude</span>
+        <div class="balao"><span class="autor">⏺</span>
           <p>Uma coisa que preciso dizer agora, porque é mais importante que o app: <b>a receita da sua avó não pode esperar o app ficar pronto.</b> Receita de avó é "farinha até dar o ponto". Isso se registra melhor filmando ela fazendo.</p>
           <p><b>O nome da pasta</b> (vale também para o GitHub):</p>
           <ul><li><b>A)</b> receitas-da-familia</li><li><b>B)</b> caderno-de-receitas</li><li><b>C)</b> receitas-da-vo</li></ul>
@@ -231,7 +249,7 @@
       </div>
 
       <div class="fala voce">
-        <div class="balao"><span class="autor">Você</span><p>A. Pode criar.</p></div>
+        <div class="balao"><span class="autor">&gt;</span><p>A. Pode criar.</p></div>
         <aside class="nota"><b>OK seu</b> antes de criar a pasta. Depois, outro OK antes de criar o repositório no GitHub.</aside>
       </div>
 
@@ -242,7 +260,7 @@
       </div>
 
       <div class="fala claude">
-        <div class="balao"><span class="autor">Claude</span>
+        <div class="balao"><span class="autor">⏺</span>
           <p><b>Rodada 1: app próprio ou algo pronto?</b> A) uma pasta compartilhada · B) construir o app · C) os dois, em etapas</p>
           <span class="reco">Recomendo C: guardar as receitas da avó não pode ficar refém do sucesso do app.</span>
           <p class="corte">(as rodadas seguem: primeira versão, formato, como testar com a família, custo)</p>
@@ -251,29 +269,27 @@
       </div>
 
       <div class="fala claude">
-        <div class="balao"><span class="autor">Claude</span>
+        <div class="balao"><span class="autor">⏺</span>
           <p>A ideia está pronta para começar a construir. Salvei as decisões e o <code>CLAUDE.md</code>. Abra uma sessão nova <b>dentro da pasta</b> receitas-da-familia: é lá que a construção começa.</p>
         </div>
         <aside class="nota"><b>Entrega o CLAUDE.md</b>, o resumo que o Claude lê em toda sessão daquele projeto.</aside>
       </div>
       <div class="resultado"><span class="arquivo">receitas-da-familia/CLAUDE.md</span></div>
     </div>
-  </section>
 
-  <section id="decidir">
-    <h2>Quando a conversa vira uma escolha</h2>
-    <p class="lead">Aqui você não digita comando nenhum. Já dentro do projeto, a pessoa só conta o que quer. Também é uma sessão real de teste, encurtada.</p>
+    <h3 class="uso" id="decidir">Discutir decisões com prós e contras</h3>
+    <p class="uso-linha">Quando, num projeto, aparece uma escolha entre caminhos, o Claude sugere <code>/decisoes:discute</code>. Você não precisa digitar nada: só conta o que quer.</p>
 
     <div class="cena">
-      <div class="onde">pasta do projeto: receitas-da-familia/</div>
+      <div class="onde"><span class="marca">✻ Claude Code</span><span>~/projetos/receitas-da-familia</span></div>
 
       <div class="fala voce">
-        <div class="balao"><span class="autor">Você</span><p>Quero que a família seja avisada quando eu colocar uma receita nova no site. Pode ser por e-mail, por WhatsApp ou só uma página de novidades, não sei qual é melhor.</p></div>
+        <div class="balao"><span class="autor">&gt;</span><p>Quero que a família seja avisada quando eu colocar uma receita nova no site. Pode ser por e-mail, por WhatsApp ou só uma página de novidades, não sei qual é melhor.</p></div>
         <aside class="nota"><b>Uma conversa comum</b>, sem comando.</aside>
       </div>
 
       <div class="fala claude">
-        <div class="balao"><span class="autor">Claude</span>
+        <div class="balao"><span class="autor">⏺</span>
           <p>Essa escolha tem prós e contras de verdade, então vale discutir antes de implementar. Sugiro abrir uma discussão com <span class="cmd">/decisoes:discute</span>. Assim a escolha fica registrada com as alternativas descartadas e o motivo. <b>Só abro o documento se você quiser.</b></p>
           <p class="corte">(e já adianta uma primeira impressão das três opções)</p>
         </div>
@@ -281,14 +297,14 @@
       </div>
 
       <div class="fala voce">
-        <div class="balao"><span class="autor">Você</span><p>Sim, pode abrir.</p></div>
+        <div class="balao"><span class="autor">&gt;</span><p>Sim, pode abrir.</p></div>
         <aside class="nota"><b>A decisão de abrir é sua.</b></aside>
       </div>
 
       <div class="resultado"><span class="arquivo">docs/decisoes/ativo/aviso-de-receita-nova.md</span></div>
 
       <div class="fala claude">
-        <div class="balao"><span class="autor">Claude</span>
+        <div class="balao"><span class="autor">⏺</span>
           <p>Pontos que precisamos decidir, em ordem: escopo, canal, disparo e conteúdo. Antes, preciso saber como a família funciona hoje, porque a resposta muda a escolha do canal:</p>
           <p><b>Grupo da família:</b> A) existe e todo mundo lê · B) existe mas está abandonado · C) não existe</p>
           <p><b>Quem vai ler:</b> X) todos usam bem o celular · Y) tem gente que precisa receber sem fazer nada</p>
