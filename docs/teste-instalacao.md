@@ -4,9 +4,9 @@ Para fazer uma vez, logo depois de instalar o plugin `decisoes`. Confirma que a 
 
 ## 1. A skill está disponível?
 
-Digite `/decisoes` e veja se aparece `/decisoes:discute` na lista.
+Digite `/decisoes` e veja se aparecem `/decisoes:discute` e `/decisoes:tira-do-papel` na lista.
 
-- ✅ Aparece: a skill foi instalada.
+- ✅ Aparecem: as skills foram instaladas.
 - ❌ Não aparece: confira em `/plugin` se o plugin `decisoes` está instalado e habilitado.
 
 ## 2. As regras chegaram no início da sessão?

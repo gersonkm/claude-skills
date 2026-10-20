@@ -1,6 +1,6 @@
 {
   "name": "decisoes",
-  "description": "Discute decisões com você de forma crítica, uma de cada vez, e registra o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa.",
+  "description": "Discute decisões com você de forma crítica, uma de cada vez, e registra o porquê de cada escolha num documento que continua fazendo sentido para quem não estava na conversa. E tira uma ideia nova do papel: cria o projeto, com repositório privado no GitHub, e conduz as decisões até o CLAUDE.md.",
   "author": {
     "name": "gersonkm",
     "url": "https://github.com/gersonkm"

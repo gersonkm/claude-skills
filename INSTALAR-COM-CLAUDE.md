@@ -76,4 +76,7 @@ Só nesse caso, ofereça uma alternativa para o Claude continuar sugerindo a dis
 
 ### 8. Resumo para a pessoa
 
-Termine em poucas linhas: o que foi instalado, se a atualização automática ficou ligada, o comando `/decisoes:discute` e que o Claude vai sugerir a discussão sozinho quando a conversa virar uma escolha entre alternativas.
+Termine em poucas linhas: o que foi instalado, se a atualização automática ficou ligada e os dois comandos:
+
+- `/decisoes:tira-do-papel <ideia>`: para quando a pessoa tiver uma ideia nova; o Claude cria o projeto e conduz as decisões;
+- `/decisoes:discute`: o Claude vai sugerir sozinho quando a conversa, num projeto, virar uma escolha entre alternativas.

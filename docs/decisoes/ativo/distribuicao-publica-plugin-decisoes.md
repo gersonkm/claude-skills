@@ -90,6 +90,31 @@ A frase que descreve o plugin orientou a escolha: *"Discute decisões com você 
 
 **Português, não inglês.** `/decisions:discuss` foi considerado para ampliar o alcance. Com o conteúdo em português, um nome em inglês prometeria um plugin que um falante de inglês não conseguiria usar. Se um dia houver tradução, o caminho previsto é uma skill só, escrita em inglês, que conversa no idioma do usuário, sem duas versões. Com ela vem um cuidado: aceitar `docs/decisions/` além de `docs/decisoes/`, inclusive nos hooks.
 
+### D8. Comando `/decisoes:tira-do-papel` para ideias que ainda não têm projeto
+
+**Problema.** A `discute` nasceu para decidir dentro de um projeto que já existe. Para quem chega com uma ideia e nada criado, faltavam três coisas: o roteiro de uma ideia nova (público, oferta, formato, validação, sustentação), a criação do projeto e a entrega de um `CLAUDE.md` para começar a construir. Uma página de prompt para o chat do claude.ai já cobria parte disso, e os usuários iniciais tinham ouvido que a skill a substituiria.
+
+**Decidido:** um comando próprio, que cuida da largada e entrega o projeto pronto:
+
+1. entende a ideia antes de criar qualquer coisa;
+2. sugere três nomes para a pasta e cria ao lado dos outros projetos da pessoa, nunca dentro de um;
+3. faz `git init`, cria o documento de decisão e o `README.md` e faz o primeiro commit;
+4. cria um repositório **sempre privado** no GitHub, com OK, e envia;
+5. conduz as rodadas com o método da `discute`, fazendo commit e push ao fechar cada bloco de decisões;
+6. entrega o `CLAUDE.md` e encaminha para uma sessão nova dentro da pasta.
+
+**Por que um comando separado, e não uma seção da `discute`:** os dois são acionados de jeitos diferentes. A `discute` é sugerida pelo Claude no meio do trabalho; o novo é chamado pela pessoa quando chega com a ideia. Ele foi marcado para o Claude **nunca acionar sozinho** (`disable-model-invocation`), porque cria pasta e repositório. A separação também impede a `discute` de crescer com assuntos vizinhos (pasta, git, GitHub). O método não se duplica: o comando manda ler e seguir a `discute`.
+
+**Por que git e GitHub desde o início:** o documento de decisão é o que mais dói perder numa ideia nova, porque guarda o raciocínio. Com histórico e cópia fora da máquina desde o primeiro momento, o projeto já fica no lugar certo para construir depois, de qualquer computador. Privado porque o documento guarda o plano da ideia (público, preço, estratégia). O login no GitHub fica com a pessoa, porque abre o navegador.
+
+**Por que o encaminhamento para uma sessão nova:** uma sessão do Claude Code não troca de pasta no meio. Ela consegue gravar na pasta nova, mas o `CLAUDE.md` só é lido numa sessão aberta dentro dela.
+
+**Nome:** `tira-do-papel`, a expressão que todo mundo usa e o nome da página que os usuários iniciais já conheciam. Descartados `nova-ideia` (descreve o assunto, não a ação, e foge da convenção de verbo) e `comeca` (vago: começa o quê?).
+
+**A página de prompt continua no ar**, para quem está só no chat, sem o Claude Code.
+
+**O que o teste mostrou** (sessão real, numa pasta de projetos de mentira, com uma ideia de caderno de receitas da família): o fluxo correu do texto da ideia até o `CLAUDE.md` gravado num repositório privado, com três commits (início, bloco de decisões, fechamento). O Claude recomendou gravar a avó antes de o app ficar pronto e apontou o conflito entre "repositório privado" e "GitHub Pages". Errou num ponto: afirmou que o Pages exige repositório público sem conferir o plano da conta, que era pago. Isso virou regra do comando: conferir antes de afirmar o que depende da conta ou da máquina da pessoa, e perguntar quando não der para conferir.
+
 ## O que mudou
 
 - Repositório publicado, com o plugin `decisoes` e o comando `/decisoes:discute`.
