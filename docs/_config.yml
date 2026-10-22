@@ -1,0 +1,7 @@
+# GitHub Pages: publicar só a página (index.html).
+# Os .md desta pasta (documento de decisão, painel, roteiro de teste) ficam no repositório
+# e são lidos lá, pelo GitHub; sem esta exclusão, o Pages os transforma em páginas públicas.
+exclude:
+  - decisoes
+  - proximos-passos.md
+  - teste-instalacao.md
