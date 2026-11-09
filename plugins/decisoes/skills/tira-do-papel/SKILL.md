@@ -61,6 +61,10 @@ Veja onde a sessão está (o diretório atual):
   mesma.
 - **Pasta de projetos** (várias subpastas, cada uma um projeto, como `~/projetos`): proponha criar
   a pasta nova dentro dela.
+- **Pasta organizada por grupos** (as subpastas não são projetos, mas agrupam projetos, por
+  exemplo por dono: `~/projetos/pessoal/`, `~/projetos/empresa/`): olhe um nível abaixo antes de
+  decidir. Uma subpasta é grupo quando as pastas dentro dela é que têm `.git`. Pergunte em qual
+  grupo criar, sugerindo um pela ideia, e crie dentro do grupo, nunca ao lado dele.
 - **Dentro de um projeto** (tem `.git`, `CLAUDE.md`, código ou documentos de outro assunto):
   proponha criar ao lado, na pasta-mãe, nunca dentro.
 - **Não dá para saber:** pergunte onde a pessoa guarda os projetos dela, sugerindo uma opção.
@@ -91,9 +95,17 @@ Na pasta nova:
      `brew install gh` (ou o instalador de https://cli.github.com).
    - Sem login, peça à pessoa para rodar `gh auth login` num terminal: o login abre o navegador e
      precisa ser feito por ela. Espere ela avisar que terminou.
-2. Mostre o que vai ser criado (nome, **privado**) e peça o OK.
-3. Crie e envie: `gh repo create <nome> --private --source <pasta> --remote origin --push`.
-4. Mostre o link do repositório.
+2. **Escolha o dono do repositório.** Sem dono no comando, o GitHub cria na conta logada, e um
+   repositório no lugar errado dá trabalho para transferir depois. Confira a conta
+   (`gh api user --jq .login`) e as organizações dela (`gh api user/orgs --jq '.[].login'`).
+   Se só houver a conta pessoal, use ela. Se houver organizações, pergunte de quem é o projeto,
+   sugerindo o dono que combina com o grupo da pasta (pasta `empresa/` e organização `empresa`,
+   por exemplo) ou, sem grupo, com a ideia.
+3. Mostre o que vai ser criado, com o nome completo (`<dono>/<nome>`, **privado**), e peça o OK.
+4. Crie e envie: `gh repo create <dono>/<nome> --private --source <pasta> --remote origin --push`.
+   Se a organização recusar (sem permissão para criar repositório), conte à pessoa e pergunte se
+   cria na conta pessoal ou espera alguém da organização liberar; não troque de dono sozinho.
+5. Mostre o link do repositório.
 
 Se a pessoa não quiser o GitHub agora, siga só com o git local e ofereça de novo no fim.
 
@@ -113,6 +125,25 @@ mude a ordem quando uma decisão depender de outra.
 **Gravar sem virar ruído:** ao fechar cada bloco de decisões, faça commit (e push, se houver
 GitHub) com uma mensagem que diga o que foi decidido, e avise em uma linha ("Salvei no GitHub:
 público e primeira versão decididos."). Nada de um commit por resposta.
+
+### Se a ideia não for adiante
+
+Descobrir que a ideia não vale a pena é um resultado, não um fracasso: muitas vezes é para isso
+que a pessoa veio. Quando a conversa chegar aí (a validação mostrou que não há público, o custo
+não fecha, a pessoa perdeu o interesse), diga isso com clareza e ofereça fechar direito:
+
+- **Antes de criar a pasta** (ainda no passo 2): não há nada para limpar. Se a pessoa quiser
+  guardar o raciocínio para o caso de a ideia voltar, ofereça criar o projeto só com o documento.
+- **Depois de criar:** pergunte se é **descartar** (não vai acontecer) ou **pausar** (agora não,
+  talvez depois). Registre no documento o motivo com as palavras da pessoa, mude o status para
+  `descartado` ou `pausado` e mova o arquivo com `git mv` para `docs/decisoes/arquivo/descartado/`
+  ou `docs/decisoes/pausado/`. Faça commit (e push, se houver GitHub).
+- **O repositório no GitHub:** pergunte o que fazer. O padrão é **deixar como está**, privado,
+  sem custo. Arquivar (`gh repo archive <dono>/<nome>`) deixa claro que está parado e é reversível.
+  Apagar só se a pessoa pedir, depois de avisar que não tem volta.
+
+Feche com o resumo do passo 8, trocando "o próximo passo" pelo motivo de ter parado e por onde
+retomar, se for pausa.
 
 ### 7. Quando a ideia estiver pronta para construir
 

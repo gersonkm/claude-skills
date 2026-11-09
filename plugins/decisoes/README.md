@@ -23,11 +23,13 @@ Este plugin faz duas coisas com isso:
 ```
 
 1. **Entende a ideia** antes de criar qualquer coisa: o que é, para quem e por quê, com poucas perguntas numeradas.
-2. **Sugere o nome da pasta** (três opções, com uma recomendação) e onde criá-la: ao lado dos seus outros projetos, nunca dentro de um deles.
+2. **Sugere o nome da pasta** (três opções, com uma recomendação) e onde criá-la: ao lado dos seus outros projetos, nunca dentro de um deles. Se os seus projetos ficam separados em grupos (por exemplo `pessoal/` e `empresa/`), pergunta em qual grupo criar.
 3. **Cria a pasta** com `git init`, um `README.md` e o documento de decisão em `docs/decisoes/ativo/`, já com o problema que você contou.
-4. **Cria um repositório privado no GitHub** e envia o primeiro commit. É sempre privado, porque o documento guarda o plano da ideia.
+4. **Cria um repositório privado no GitHub** e envia o primeiro commit. É sempre privado, porque o documento guarda o plano da ideia. Se você participa de organizações no GitHub, pergunta de quem é o projeto e mostra o nome completo (`dono/nome`) antes do seu OK.
 5. **Conduz as decisões** com o método da `discute`, num roteiro de ideia nova: para quem é, o que oferecer na primeira versão, formato, como validar, como se sustenta e o que é preciso para construir. Salva no GitHub ao fechar cada bloco de decisões.
 6. **Entrega o `CLAUDE.md`** quando a ideia está pronta para construir e diz para abrir uma sessão nova dentro da pasta, que é onde o `CLAUDE.md` é lido.
+
+Se no caminho ficar claro que a ideia não vale a pena, isso também é um resultado. O Claude registra o motivo, guarda o documento como descartado (ou pausado, se for "agora não") e pergunta o que fazer com o repositório: deixar como está, arquivar ou, só se você pedir, apagar. Se a pasta ainda não tinha sido criada, não há nada para limpar.
 
 O Claude pede o seu OK antes de criar a pasta, antes de criar o repositório e antes de instalar qualquer programa. O que ele precisa e oferece instalar se faltar: o **git** e o **GitHub CLI** (`gh`). O login no GitHub (`gh auth login`) é você quem faz, porque abre o navegador. Se não quiser o GitHub agora, o projeto fica só no seu computador, com git.
 
